@@ -2,11 +2,14 @@ import React, { useContext } from 'react'
 import './CartItems.css'
 import { ShopContext } from '../../Context/ShopContext'
 import remove_icon from '../Assets/cart_cross_icon.png'
+import CustomHelmet from '../Helmet/Helmet'
 const CartItems = () => {
     const{ getTotalCartAmount,all_product,cartItems,removeFromCart}=useContext(ShopContext)
     console.log(getTotalCartAmount);
+    const title='SHOPPER - shopping Cart -${CartItems}';
   return (
     <div className='cartitems'>
+        <CustomHelmet title={title}/>
       <div className="cartitems-format-main">
         <p>Products</p>
         <p>Title</p>

@@ -1,86 +1,120 @@
-import React from 'react'
-import './CSS/LoginSignup.css'
-import emailjs from '@emailjs/browser'
-import { useState, useRef } from 'react'
-
-
-
+import React, { useRef, useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./CSS/LoginSignup.css";
 
 
 const LoginSignup = () => {
+  const form = useRef();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [text, setText] = useState("");
+  const [password, setPassword] = useState("");
+  const [agree, setAgree] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
-  const loginNameRef = useRef();
-  const loginEailRef = useRef();
-  const loginPasswordRef = useRef();
-
-
-  const submitHandler = (e) => {
+  const sendEmail = async (e) => {
     e.preventDefault();
 
-    const serviceId = 'service_c69ugdr';
-    const templateId ='template_5gcykq5';
-    const publicKey = 'aKVPp41iXUuUwGHK3';
+   
+    if (!name || !email || !password || !agree) {
+      toast.error("All fields are required. Please fill in all the details.", {autoClose: 1500,});
+      return;
+    }
 
-    const templateParams = {
-      from_name: email,
-      to_name: text,
-    };
+    const apiUrl23 = "https://api.emailjs.com/api/v1.0/email/send";
 
-    emailjs
-      .send(serviceId, templateId, templateParams, publicKey)
-      .then((response) => {
-        console.log("Email sent successfully!", response);
-        alert("Email sent successfully!", response)
-        setEmail("");
-        setText("");
-      })
-      .catch((error) => {
-        console.error("Error sending email:", error);
-      });
+    const serviceId = "service_c69ugdr";
+    const templateId = "template_jxtgkbe";
+    const publicKey = "aKVPp41iXUuUwGHK3";
 
-    setEmail("");
-    setText("");
+    try {
+      setSubmitting(true);
 
-  }
+      const templateParams = {
+        name: name,
+        email: email,
+        password: password,
+        agree: agree ? "Yes" : "No",
+      };
+
+      const data23 = {
+        service_id: serviceId,
+        template_id: templateId,
+        user_id: publicKey,
+        template_params: templateParams,
+      };
+
+      await axios.post(apiUrl23, data23);
+
+      toast.success("Signup successful!", { autoClose: 1500 });
+      setName("");
+      setEmail("");
+      setPassword("");
+      setAgree(false);
+    } catch (error) {
+      console.error("Email failed to send:", error);
+
+      toast.error("Failed to submit the form. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
-    <form onSubmit={submitHandler}>
-      <div className='loginsignup'>
+    <form ref={form} onSubmit={sendEmail}>
+      <div className="loginsignup">
         <div className="loginsignup-container">
           <h1>Sign Up</h1>
           <div className="loginsignup-fields">
-            <input type="text" placeholder='Your Name'
+            <input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Your Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
 
-              required
-              ref={loginEailRef}
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Email Address"
+              value={email}
               onChange={(e) => setEmail(e.target.value)}
-
-            />
-            <input type="email" placeholder='Email Address'
-              required
-              ref={loginNameRef}
-              onChange={(e) => setEmail(e.target.value)}
-
-            />
-            <input type="password" placeholder='Password'
-              required
-              ref={loginPasswordRef}
-              onChange={(e) => setText(e.target.value)}
             />
 
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </div>
-          <button>Continue</button>
-          <p className='loginsignup-login'>Already have an account? <span>Login here</span></p>
-          <div className='loginsignup-agree'>
-            <input type="checkbox" name='' id='' />
-            <p>By continuing, i agree to the terms of use & privacy policy.</p>
+
+          <button type="submit" aria-label="Continue" disabled={submitting}>
+            Continue
+          </button>
+          <p className="loginsignup-login">
+            Already have an account? <span>Login here</span>
+          </p>
+          <div className="loginsignup-agree">
+            <input
+              type="checkbox"
+              id="agree"
+              name="agree"
+              checked={agree}
+              onChange={() => setAgree(!agree)}
+            />
+            <p>By continuing, I agree to the terms of use & privacy policy</p>
           </div>
         </div>
       </div>
     </form>
-  )
-}
+  );
+};
 
-export default LoginSignup
+export default LoginSignup;

@@ -5,6 +5,8 @@ import cart_icon from '../Assets/cart_icon.png'
 import {Link} from 'react-router-dom'
 import { ShopContext } from '../../Context/ShopContext'
 import dropdown from '../Assets/nav_dropdown.png'
+import CustomHelmet from '../Helmet/Helmet'
+
 const Navbar = () => {
   const[menu,setMenu]=useState("shop")
   const {getTotalCartItems}=useContext(ShopContext)
@@ -13,8 +15,28 @@ const Navbar = () => {
 menuRef.current.classList.toggle('nav-menu-visible');
 e.target.classList.toggle('open')
   }
+
+
+let pageTitle="SHOPPER";
+if(menu==='mens'){
+  pageTitle="SHOPPER - Men's Fashion";
+
+}
+else if(menu ==='Womens'){
+  pageTitle="SHOPPER - Women's Fashion";
+
+}
+else if(menu === "kids"){
+  pageTitle="SHOPPER - kids Fashion";
+}
+
+
+
+
+
   return (
     <div className='navbar'>
+      <CustomHelmet title={pageTitle}/>
         <div className='nav-logo'>
             <img src={logo} alt="" />
             <p>SHOPPER</p>
