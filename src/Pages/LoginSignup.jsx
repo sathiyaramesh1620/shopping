@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./CSS/LoginSignup.css";
+import CustomHelmet from "../Components/Helmet/Helmet";
 
 
 const LoginSignup = () => {
@@ -60,11 +61,13 @@ const LoginSignup = () => {
       setSubmitting(false);
     }
   };
+  const pageTitle = "SHOPPER - Login"
 
   return (
-    <form ref={form} onSubmit={sendEmail}>
+    <form ref={form} onSubmit={sendEmail} >
+      <CustomHelmet title={pageTitle}/>
       <div className="loginsignup">
-        <div className="loginsignup-container">
+        <div className="loginsignup-container" data-aos="zoom-in">
           <h1>Sign Up</h1>
           <div className="loginsignup-fields">
             <input

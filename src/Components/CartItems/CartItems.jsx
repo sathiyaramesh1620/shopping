@@ -4,9 +4,9 @@ import { ShopContext } from '../../Context/ShopContext'
 import remove_icon from '../Assets/cart_cross_icon.png'
 import CustomHelmet from '../Helmet/Helmet'
 const CartItems = () => {
-    const{ getTotalCartAmount,all_product,cartItems,removeFromCart}=useContext(ShopContext)
+    const{ getTotalCartAmount,all_product,getTotalCartItems,cartItems,removeFromCart}=useContext(ShopContext)
     console.log(getTotalCartAmount);
-    const title='SHOPPER - shopping Cart -${CartItems}';
+    const title=`SHOPPER - shopping Cart -${getTotalCartItems()}`;
   return (
     <div className='cartitems'>
         <CustomHelmet title={title}/>
@@ -46,7 +46,7 @@ const CartItems = () => {
             <h1>Cart Totals</h1>
             <div>
                 <div className="cartitems-total-item">
-                    <p>Subtotal</p>
+                    <p>SubTotal</p>
                     <p>${getTotalCartAmount()}</p>
                 </div>
                 <hr />

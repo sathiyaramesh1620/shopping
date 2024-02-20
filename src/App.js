@@ -12,12 +12,23 @@ import men_banner from './Components/Assets/banner_mens.png'
 import women_banner from './Components/Assets/banner_women.png'
 import kid_banner from './Components/Assets/banner_kids.png'
 // import Email from './Pages/Email';
+import { useEffect } from 'react';
+import Aos from 'aos';
 
 function App() {
+  useEffect(() => {
+    Aos.init({
+    offset: 130,
+    duration: 300,
+    easing: 'ease-in-sine',
+    delay: 20,
+    });
+},[])
   return (
     <div >
       <BrowserRouter>
       <Navbar/>
+  
       <Routes>
         <Route path= '/' element={<Shops/>}/>
         <Route path= '/mens' element={<ShopCategory 

@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import ShopContextProvider from './Context/ShopContext';
 import { ToastContainer } from 'react-toastify';
+import "aos/dist/aos.css"
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
